@@ -7,14 +7,16 @@
     "dev": "tsx src/server.ts",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "module": "tsx dev/scripts/create-module.ts"
+    "module": "tsx dev/scripts/create-module.ts",
+    "postinstall": "prisma skills sync || exit 0"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
     "cors": "^2.8.6",
-    "dotenv": "^18.0.5",
     "express": "^5.2.1",
     "http-status-codes": "^2.3.0",
     "joi": "^18.2.9",
@@ -25,8 +27,10 @@
     "@types/express": "^5.0.6",
     "@types/lodash": "^4.17.25",
     "@types/node": "^26.6.3",
+    "dotenv": "^18.0.5",
     "i": "^0.3.7",
     "npm": "^12.2.0",
+    "prisma": "^8.0.0-rc.19",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   }
