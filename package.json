@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx src/server.ts",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "module": "tsx dev/scripts/create-module.ts"
   },
   "keywords": [],
   "author": "",
