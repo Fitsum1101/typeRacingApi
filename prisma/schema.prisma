@@ -13,11 +13,163 @@ datasource db {
 }
 
 
+
+enum RaceMode {
+  QUICK_MATCH
+  PRIVATE_ROOM
+}
+
+enum RoomStatus {
+  WAITING
+  RACING
+  CLOSED
+}
+
+enum RoomPlayerStatus {
+  JOINED
+  READY
+  LEFT
+}
+
+enum RaceStatus {
+  COUNTDOWN
+  RACING
+  FINISHED
+  CANCELLED
+}
+
+enum RacePlayerStatus {
+  JOINED
+  RACING
+  FINISHED
+  DISCONNECTED
+  QUIT
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  avatar       String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  hostedRooms  Room[]       @relation("RoomHost")
+  roomEntries  RoomPlayer[]
+  raceEntries  RacePlayer[]
+  stats        UserStats?
+}
+
+model UserStats {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  totalRaces      Int      @default(0)
+  racesWon        Int      @default(0)
+  totalPoints     Int      @default(0)
+  bestWpm         Float    @default(0)
+  averageWpm      Float    @default(0)
+  averageAccuracy Float    @default(0)
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([totalPoints(sort: Desc)])
+}
+
+model Room {
+  id         String     @id @default(cuid())
+  code       String?    @unique
+  hostId     String
+  mode       RaceMode
+  maxPlayers Int        @default(6)
+  status     RoomStatus @default(WAITING)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  host    User         @relation("RoomHost", fields: [hostId], references: [id], onDelete: Restrict)
+  players RoomPlayer[]
+  races   Race[]
+
+  @@index([hostId])
+  @@index([status, mode])
+}
+
+model RoomPlayer {
+  id          String           @id @default(cuid())
+  roomId      String
+  userId      String?
+  guestId     String?
+  displayName String
+  status      RoomPlayerStatus @default(JOINED)
+  joinedAt    DateTime         @default(now())
+  leftAt      DateTime?
+
+  room Room  @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@unique([roomId, userId])
+  @@unique([roomId, guestId])
+  @@index([roomId, status])
+}
+
+model TypingText {
+  id         String     @id @default(cuid())
+  content    String     @db.Text
+  difficulty Difficulty @default(MEDIUM)
+  category   String?
+  language   String     @default("en")
+  createdAt  DateTime   @default(now())
+
+  races Race[]
+}
+
+model Race {
+  id         String     @id @default(cuid())
+  roomId     String?
+  textId     String
+  mode       RaceMode
+  status     RaceStatus @default(COUNTDOWN)
+  startedAt  DateTime?
+  finishedAt DateTime?
+  createdAt  DateTime   @default(now())
+
+  room    Room?      @relation(fields: [roomId], references: [id], onDelete: SetNull)
+  text    TypingText @relation(fields: [textId], references: [id], onDelete: Restrict)
+  players RacePlayer[]
+
+  @@index([roomId, status])
+  @@index([createdAt])
+}
+
+model RacePlayer {
+  id                String           @id @default(cuid())
+  raceId            String
+  userId            String?
+  guestId           String?
+  displayName       String
+  status            RacePlayerStatus @default(JOINED)
+  wpm               Float            @default(0)
+  accuracy          Float            @default(0)
+  errors            Int              @default(0)
+  correctCharacters Int              @default(0)
+  typedCharacters   Int              @default(0)
+  position          Int?
+  points            Int              @default(0)
+  finishedAt        DateTime?
+  createdAt         DateTime         @default(now())
+
+  race Race  @relation(fields: [raceId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@unique([raceId, userId])
+  @@unique([raceId, guestId])
+  @@index([userId, createdAt])
+  @@index([raceId, position])
 }

@@ -46,3 +46,33 @@ export { Prisma }
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model UserStats
+ * 
+ */
+export type UserStats = Prisma.UserStatsModel
+/**
+ * Model Room
+ * 
+ */
+export type Room = Prisma.RoomModel
+/**
+ * Model RoomPlayer
+ * 
+ */
+export type RoomPlayer = Prisma.RoomPlayerModel
+/**
+ * Model TypingText
+ * 
+ */
+export type TypingText = Prisma.TypingTextModel
+/**
+ * Model Race
+ * 
+ */
+export type Race = Prisma.RaceModel
+/**
+ * Model RacePlayer
+ * 
+ */
+export type RacePlayer = Prisma.RacePlayerModel

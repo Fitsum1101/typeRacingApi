@@ -23,14 +23,23 @@ interface MongooseCastError extends Error {
 /**
  * Handler for unknown routes
  */
-export const notFoundHandler = (_req: Request, _res: Response, next: NextFunction) => {
+export const notFoundHandler = (
+  _req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
   next(new ApiError(404, "Route not found"));
 };
 
 /**
  * Centralized error handler
  */
-export const errorHandler = (err: unknown, req: Request, res: Response, _next: NextFunction) => {
+export const errorHandler = (
+  err: unknown,
+  req: Request,
+  res: Response,
+  _next: NextFunction,
+) => {
   // Handle JSON parsing errors
   if (err instanceof SyntaxError) {
     const jsonError = err as JsonSyntaxError;
@@ -46,7 +55,9 @@ export const errorHandler = (err: unknown, req: Request, res: Response, _next: N
   // Handle Mongoose validation errors
   if ((err as MongooseValidationError).name === "ValidationError") {
     const validationErr = err as MongooseValidationError;
-    const messages = Object.values(validationErr.errors).map((val) => val.message);
+    const messages = Object.values(validationErr.errors).map(
+      (val) => val.message,
+    );
     err = new ApiError(400, "Validation error", messages);
   }
 

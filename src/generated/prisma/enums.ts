@@ -9,7 +9,57 @@
 * 🟢 You can import this file directly.
 */
 
+export const RaceMode = {
+  QUICK_MATCH: 'QUICK_MATCH',
+  PRIVATE_ROOM: 'PRIVATE_ROOM'
+} as const
+
+export type RaceMode = (typeof RaceMode)[keyof typeof RaceMode]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const RoomStatus = {
+  WAITING: 'WAITING',
+  RACING: 'RACING',
+  CLOSED: 'CLOSED'
+} as const
+
+export type RoomStatus = (typeof RoomStatus)[keyof typeof RoomStatus]
+
+
+export const RoomPlayerStatus = {
+  JOINED: 'JOINED',
+  READY: 'READY',
+  LEFT: 'LEFT'
+} as const
+
+export type RoomPlayerStatus = (typeof RoomPlayerStatus)[keyof typeof RoomPlayerStatus]
+
+
+export const RaceStatus = {
+  COUNTDOWN: 'COUNTDOWN',
+  RACING: 'RACING',
+  FINISHED: 'FINISHED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type RaceStatus = (typeof RaceStatus)[keyof typeof RaceStatus]
+
+
+export const RacePlayerStatus = {
+  JOINED: 'JOINED',
+  RACING: 'RACING',
+  FINISHED: 'FINISHED',
+  DISCONNECTED: 'DISCONNECTED',
+  QUIT: 'QUIT'
+} as const
+
+export type RacePlayerStatus = (typeof RacePlayerStatus)[keyof typeof RacePlayerStatus]
+
+
+export const Difficulty = {
+  EASY: 'EASY',
+  MEDIUM: 'MEDIUM',
+  HARD: 'HARD'
+} as const
+
+export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty]

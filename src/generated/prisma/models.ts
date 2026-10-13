@@ -9,4 +9,10 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
+export type * from './models/UserStats'
+export type * from './models/Room'
+export type * from './models/RoomPlayer'
+export type * from './models/TypingText'
+export type * from './models/Race'
+export type * from './models/RacePlayer'
 export type * from './commonInputTypes'

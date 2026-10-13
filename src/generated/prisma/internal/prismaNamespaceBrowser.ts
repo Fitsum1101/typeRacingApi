@@ -51,7 +51,13 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  UserStats: 'UserStats',
+  Room: 'Room',
+  RoomPlayer: 'RoomPlayer',
+  TypingText: 'TypingText',
+  Race: 'Race',
+  RacePlayer: 'RacePlayer'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -72,14 +78,105 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const UserScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  username: 'username',
   email: 'email',
-  password: 'password',
+  passwordHash: 'passwordHash',
+  avatar: 'avatar',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const UserStatsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  totalRaces: 'totalRaces',
+  racesWon: 'racesWon',
+  totalPoints: 'totalPoints',
+  bestWpm: 'bestWpm',
+  averageWpm: 'averageWpm',
+  averageAccuracy: 'averageAccuracy',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserStatsScalarFieldEnum = (typeof UserStatsScalarFieldEnum)[keyof typeof UserStatsScalarFieldEnum]
+
+
+export const RoomScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  hostId: 'hostId',
+  mode: 'mode',
+  maxPlayers: 'maxPlayers',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
+
+
+export const RoomPlayerScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  userId: 'userId',
+  guestId: 'guestId',
+  displayName: 'displayName',
+  status: 'status',
+  joinedAt: 'joinedAt',
+  leftAt: 'leftAt'
+} as const
+
+export type RoomPlayerScalarFieldEnum = (typeof RoomPlayerScalarFieldEnum)[keyof typeof RoomPlayerScalarFieldEnum]
+
+
+export const TypingTextScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  difficulty: 'difficulty',
+  category: 'category',
+  language: 'language',
+  createdAt: 'createdAt'
+} as const
+
+export type TypingTextScalarFieldEnum = (typeof TypingTextScalarFieldEnum)[keyof typeof TypingTextScalarFieldEnum]
+
+
+export const RaceScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  textId: 'textId',
+  mode: 'mode',
+  status: 'status',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type RaceScalarFieldEnum = (typeof RaceScalarFieldEnum)[keyof typeof RaceScalarFieldEnum]
+
+
+export const RacePlayerScalarFieldEnum = {
+  id: 'id',
+  raceId: 'raceId',
+  userId: 'userId',
+  guestId: 'guestId',
+  displayName: 'displayName',
+  status: 'status',
+  wpm: 'wpm',
+  accuracy: 'accuracy',
+  errors: 'errors',
+  correctCharacters: 'correctCharacters',
+  typedCharacters: 'typedCharacters',
+  position: 'position',
+  points: 'points',
+  finishedAt: 'finishedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type RacePlayerScalarFieldEnum = (typeof RacePlayerScalarFieldEnum)[keyof typeof RacePlayerScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -96,4 +193,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

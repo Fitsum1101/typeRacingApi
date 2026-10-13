@@ -8,7 +8,12 @@ export class ApiError extends Error implements IApiError {
   success: boolean;
   errors: unknown[];
 
-  constructor(statusCode: number, message: string, errors: unknown[] = [], stack?: string) {
+  constructor(
+    statusCode: number,
+    message: string,
+    errors: unknown[] = [],
+    stack?: string,
+  ) {
     super(message || "Something went wrong");
     this.statusCode = statusCode;
     this.success = false;
@@ -22,7 +27,11 @@ export class ApiError extends Error implements IApiError {
   }
 
   /** Creates a new ApiError instance */
-  static createError(statusCode: number, message: string, errors: unknown[] = []): ApiError {
+  static createError(
+    statusCode: number,
+    message: string,
+    errors: unknown[] = [],
+  ): ApiError {
     return new ApiError(statusCode, message, errors);
   }
 
