@@ -1,5 +1,6 @@
 import jwt, { type JwtPayload, type SignOptions } from "jsonwebtoken";
 import { env } from "../config/env";
+import { AccessTokenPayload, RefreshTokenPayload } from "../types/auth";
 
 export interface AuthTokenPayload extends JwtPayload {
   id: string;
@@ -18,14 +19,16 @@ function signToken(
   });
 }
 
-// 1. Create an access token
-export function generateAccessToken(payload: TokenPayload): string {
-  return signToken(payload, env.jwtAccessSecret, env.jwtAccessExpiresIn);
+export function generateAccessToken(payload: AccessTokenPayload): string {
+  return jwt.sign(payload, env.jwtAccessSecret, {
+    expiresIn: env.jwtAccessExpiresIn as jwt.SignOptions["expiresIn"],
+  });
 }
 
-// 2. Create a refresh token
-export function generateRefreshToken(payload: TokenPayload): string {
-  return signToken(payload, env.jwtRefreshSecret, env.jwtRefreshExpiresIn);
+export function generateRefreshToken(payload: RefreshTokenPayload): string {
+  return jwt.sign(payload, env.jwtRefreshSecret, {
+    expiresIn: env.jwtRefreshExpiresIn as jwt.SignOptions["expiresIn"],
+  });
 }
 
 // 3. Verify an access token
