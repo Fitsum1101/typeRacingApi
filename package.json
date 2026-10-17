@@ -1,11 +1,12 @@
 {
-  "name": "typeracingapi",
+  "name": "typeRacingApi",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.ts",
   "scripts": {
     "dev": "tsx src/server.ts",
-    "build": "tsc",
+    "build": "prisma generate",
+    "start": "tsx src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "module": "tsx dev/scripts/create-module.ts",
     "db:generate": "prisma generate",
@@ -42,7 +43,7 @@
     "dotenv": "^18.0.5",
     "i": "^0.3.7",
     "npm": "^12.2.0",
-    "prisma": "^7.10.0",
+    "prisma": "^7.10.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   }

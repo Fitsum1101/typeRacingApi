@@ -13,8 +13,6 @@ const app = express();
 // Trust proxy configuration
 app.set("trust proxy", 1);
 
-// app.use(cors());
-
 // ===== 🌐 CORS Middleware Setup =====
 const allowedOrigins = process.env.FRONTEND_URL_CORS?.split(",").map((origin) =>
   origin.trim(),
