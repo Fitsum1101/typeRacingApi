@@ -1,7 +1,7 @@
 import { prisma } from "../../config/db";
 import { rooms } from "../rooms";
 import { LivePlayer, LiveRace, liveRaces } from "../state";
-import { AppSocket, ResultRow, IO } from "../types";
+import { AppSocket, ResultRow, IO } from "../types/sock";
 
 const COUNTDOWN_MS = 3000;
 const MAX_RACE_MS = 3 * 60 * 1000;

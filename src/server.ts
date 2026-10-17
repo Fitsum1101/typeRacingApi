@@ -2,6 +2,7 @@ import http from "http";
 
 import app from "./app";
 import { checkConnection, connectDB, disconnectDB } from "./config/db";
+import { initSocket } from "./socket";
 
 const server = http.createServer(app);
 
@@ -50,7 +51,10 @@ const startServer = async (): Promise<void> => {
     }
     console.log("✅ Database health check passed");
 
-    const PORT = Number(process.env.PORT) || 3000;
+    const PORT = Number(process.env.PORT) || 4000;
+
+    initSocket(server);
+
     server.listen(PORT, () => {
       console.log(`🚀 Server running at http://localhost:${PORT}`);
       console.log(`📊 Environment: ${process.env.NODE_ENV ?? "development"}`);

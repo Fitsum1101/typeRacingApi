@@ -1,4 +1,4 @@
-import { AppSocket } from "./types";
+import { AppSocket } from "./types/sock";
 
 export interface LivePlayer {
   playerKey: string;

@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
-import { AppSocket } from "./types";
+import { AppSocket } from "./types/sock";
 import { prisma } from "../config/db";
 
 export async function socketAuth(

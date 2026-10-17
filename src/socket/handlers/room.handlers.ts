@@ -1,9 +1,10 @@
 import crypto from "crypto";
 import { rooms } from "../rooms";
 import { liveRaces } from "../state";
-import { AppSocket, IO, RoomState } from "../types";
+import { AppSocket, IO } from "../types/sock";
 import { prisma } from "../../config/db";
 import { markLeft, startRace } from "../services/race.service";
+import { RoomState } from "../types/room";
 
 const MIN_PLAYERS_TO_START = 2; // use 1 while testing alone
 

@@ -1,7 +1,7 @@
 import { rooms } from "../rooms";
 import { quickQueue } from "../state";
 import { broadcastRoomState } from "./room.handlers";
-import { AppSocket, IO } from "../types";
+import { AppSocket, IO } from "../types/sock";
 import { prisma } from "../../config/db";
 import { startRace } from "../services/race.service";
 

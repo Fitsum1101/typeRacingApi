@@ -8,12 +8,9 @@ import {
   registerQuickMatch,
   removeFromQueue,
 } from "./handlers/quickmatch.handlers";
-import {
-  ClientToServerEvents,
-  IO,
-  ServerToClientEvents,
-  SocketData,
-} from "./types";
+import { IO, SocketData } from "./types/sock";
+import { ClientToServerEvents } from "./types/event/client";
+import { ServerToClientEvents } from "./types/event/server";
 
 let io: IO | null = null;
 
