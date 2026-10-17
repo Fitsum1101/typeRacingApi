@@ -1,19 +1,13 @@
 import { Request, Response } from "express";
 import { catchAsync } from "../../../utils/catchAsync";
-import {
-  registerUser,
-  loginUser,
-  getCurrentUser,
-  refreshTokens,
-  logoutUser,
-} from "../service/auth.service";
+import authService from "../service/auth.service";
 import { ApiResponse } from "../../../utils/apiResponse";
 
 /**
  * POST /auth/register
  */
-export const register = catchAsync(async (req: Request, res: Response) => {
-  const result = await registerUser(req.body);
+const register = catchAsync(async (req: Request, res: Response) => {
+  const result = await authService.registerUser(req.body);
 
   res
     .status(201)
@@ -23,8 +17,8 @@ export const register = catchAsync(async (req: Request, res: Response) => {
 /**
  * POST /auth/login
  */
-export const login = catchAsync(async (req: Request, res: Response) => {
-  const result = await loginUser(req.body);
+const login = catchAsync(async (req: Request, res: Response) => {
+  const result = await authService.loginUser(req.body);
 
   res.status(200).json(new ApiResponse(200, result, "Logged in successfully"));
 });
@@ -33,8 +27,8 @@ export const login = catchAsync(async (req: Request, res: Response) => {
  * GET /auth/me
  * Requires authentication middleware
  */
-export const me = catchAsync(async (req: any, res: Response) => {
-  const user = await getCurrentUser(req.user!.id);
+const me = catchAsync(async (req: any, res: Response) => {
+  const user = await authService.getCurrentUser(req.user!.id);
 
   res.status(200).json(new ApiResponse(200, user, "User fetched successfully"));
 });
@@ -43,10 +37,10 @@ export const me = catchAsync(async (req: any, res: Response) => {
  * POST /auth/refresh
  * Body: { refreshToken: string }
  */
-export const refresh = catchAsync(async (req: Request, res: Response) => {
+const refresh = catchAsync(async (req: Request, res: Response) => {
   const { refreshToken } = req.body;
 
-  const tokens = await refreshTokens(refreshToken);
+  const tokens = await authService.refreshTokens(refreshToken);
 
   res
     .status(200)
@@ -57,10 +51,18 @@ export const refresh = catchAsync(async (req: Request, res: Response) => {
  * POST /auth/logout
  * Body: { refreshToken: string }
  */
-export const logout = catchAsync(async (req: Request, res: Response) => {
+const logout = catchAsync(async (req: Request, res: Response) => {
   const { refreshToken } = req.body;
 
-  await logoutUser(refreshToken);
+  await authService.logoutUser(refreshToken);
 
   res.status(200).json(new ApiResponse(200, null, "Logged out successfully"));
 });
+
+export default {
+  register,
+  login,
+  me,
+  refresh,
+  logout,
+};

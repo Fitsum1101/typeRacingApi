@@ -1,5 +1,5 @@
 import authRoutes from "./routes/auth.routes";
-import { AuthController } from "./controller/auth.controller";
-import { AuthService } from "./service/auth.service";
+import authService from "./service/auth.service";
+import authController from "./controller/auth.controller";
 
-export { authRoutes, AuthController, AuthService };
+export { authRoutes, authService, authController };

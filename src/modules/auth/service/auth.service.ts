@@ -60,9 +60,7 @@ async function createAuthSession(user: User): Promise<AuthTokens> {
 }
 
 // 1. Register a user and initialize their statistics.
-export async function registerUser(
-  input: RegisterInput,
-): Promise<AuthResponse> {
+async function registerUser(input: RegisterInput): Promise<AuthResponse> {
   const username = normalizeUsername(input.username ?? "");
   const email = normalizeEmail(input.email ?? "");
   const { password, avatar } = input;
@@ -123,7 +121,7 @@ export async function registerUser(
 }
 
 // 2. Login with email or username.
-export async function loginUser(input: LoginInput): Promise<AuthResponse> {
+async function loginUser(input: LoginInput): Promise<AuthResponse> {
   const identifier = input.emailOrUsername?.trim().toLowerCase();
   const { password } = input;
 
@@ -165,7 +163,7 @@ export async function loginUser(input: LoginInput): Promise<AuthResponse> {
 }
 
 // 3. Get the current authenticated user and game statistics.
-export async function getCurrentUser(userId: string) {
+async function getCurrentUser(userId: string) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     include: { stats: true },
@@ -183,7 +181,7 @@ export async function getCurrentUser(userId: string) {
 }
 
 // 4. Rotate the refresh token and issue a new access token.
-export async function refreshTokens(refreshToken: string): Promise<AuthTokens> {
+async function refreshTokens(refreshToken: string): Promise<AuthTokens> {
   if (!refreshToken) {
     throw ApiError.unauthorized("Refresh token is required");
   }
@@ -260,7 +258,7 @@ export async function refreshTokens(refreshToken: string): Promise<AuthTokens> {
 }
 
 // 5. Revoke a session during logout.
-export async function logoutUser(refreshToken: string): Promise<void> {
+async function logoutUser(refreshToken: string): Promise<void> {
   if (!refreshToken) {
     throw ApiError.badRequest("Refresh token is required");
   }
@@ -300,3 +298,11 @@ export async function logoutUser(refreshToken: string): Promise<void> {
     },
   });
 }
+
+export default {
+  registerUser,
+  loginUser,
+  getCurrentUser,
+  refreshTokens,
+  logoutUser,
+};
