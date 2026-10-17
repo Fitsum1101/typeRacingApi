@@ -1,59 +1,69 @@
-// import type { Response, NextFunction, RequestHandler } from "express";
-// import { StatusCodes } from "http-status-codes";
+import type { RequestHandler } from "express";
+import { StatusCodes } from "http-status-codes";
 
-// import { ApiError } from "../utils/apiError";
-// import { verifyAccessToken } from "../utils/jwtToken";
-// import { prisma } from "../config/db";
-// import { extractToken } from "../utils/token";
-// import type { AuthenticatedRequest } from "../types/authMiddleare";
+import { prisma } from "../config/db";
+import { ApiError } from "../utils/apiError";
+import { extractBearerToken, verifyAccessToken } from "../utils/jwt";
 
-// const authenticate: RequestHandler = async (
-//   req: AuthenticatedRequest,
-//   _res: Response,
-//   next: NextFunction,
-// ) => {
-//   try {
-//     const token = extractToken(req);
+const authenticate: RequestHandler = async (req, _res, next) => {
+  try {
+    const token = extractBearerToken(req.headers.authorization);
 
-//     if (!token) {
-//       return next(
-//         new ApiError(
-//           StatusCodes.UNAUTHORIZED,
-//           "Access denied, no token provided",
-//         ),
-//       );
-//     }
+    if (!token) {
+      return next(
+        new ApiError(
+          StatusCodes.UNAUTHORIZED,
+          "Access denied, no token provided",
+        ),
+      );
+    }
 
-//     const decoded = verifyAccessToken(token) as { id: string };
+    const decoded = verifyAccessToken(token);
 
-//     const user = await prisma.user.findUnique({
-//       where: { id: decoded.id },
-//     });
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        avatar: true,
+        isActive: true,
+      },
+    });
 
-//     if (!user) {
-//       return next(new ApiError(StatusCodes.UNAUTHORIZED, "User not found"));
-//     }
+    if (!user) {
+      return next(new ApiError(StatusCodes.UNAUTHORIZED, "User not found"));
+    }
 
-//     if (!user.isActive) {
-//       return next(new ApiError(StatusCodes.FORBIDDEN, "Account is disabled"));
-//     }
+    if (!user.isActive) {
+      return next(new ApiError(StatusCodes.FORBIDDEN, "Account is disabled"));
+    }
 
-//     req.user = {
-//       id: user.id,
-//       points: Number(user.points),
-//       role: user.role,
-//       username: user.username,
-//       email: user.email,
-//     };
+    req.user = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      avatar: user.avatar,
+    };
 
-//     next();
-//   } catch (err) {
-//     console.error("Authentication error:", err);
+    return next();
+  } catch (err) {
+    if (
+      err instanceof Error &&
+      ["JsonWebTokenError", "TokenExpiredError", "NotBeforeError"].includes(
+        err.name,
+      )
+    ) {
+      return next(
+        new ApiError(
+          StatusCodes.UNAUTHORIZED,
+          "Invalid or expired access token",
+        ),
+      );
+    }
 
-//     return next(
-//       new ApiError(StatusCodes.UNAUTHORIZED, "Authentication failed"),
-//     );
-//   }
-// };
+    return next(err);
+  }
+};
 
-// export default authenticate;
+export default authenticate;

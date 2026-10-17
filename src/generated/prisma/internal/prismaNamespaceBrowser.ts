@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  AuthSession: 'AuthSession',
   UserStats: 'UserStats',
   Room: 'Room',
   RoomPlayer: 'RoomPlayer',
@@ -81,12 +82,26 @@ export const UserScalarFieldEnum = {
   username: 'username',
   email: 'email',
   passwordHash: 'passwordHash',
+  isActive: 'isActive',
   avatar: 'avatar',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const AuthSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  refreshTokenHash: 'refreshTokenHash',
+  expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AuthSessionScalarFieldEnum = (typeof AuthSessionScalarFieldEnum)[keyof typeof AuthSessionScalarFieldEnum]
 
 
 export const UserStatsScalarFieldEnum = {

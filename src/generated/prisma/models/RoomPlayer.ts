@@ -485,10 +485,6 @@ export type EnumRoomPlayerStatusFieldUpdateOperationsInput = {
   set?: $Enums.RoomPlayerStatus
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type RoomPlayerCreateWithoutUserInput = {
   id?: string
   guestId?: string | null
